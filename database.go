@@ -5,8 +5,7 @@ import (
 	"time"
 )
 
-func getConnection() {
-
+func GetConnection() *sql.DB {
 	db, err := sql.Open("mysql", "bad:123qwe@tcp(localhost:3306)/golang_database")
 
 	if err != nil {
@@ -21,4 +20,6 @@ func getConnection() {
 	db.SetConnMaxIdleTime(5 * time.Minute)
 	//
 	db.SetConnMaxLifetime(60 * time.Minute)
+
+	return db
 }
