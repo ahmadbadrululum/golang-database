@@ -11,3 +11,11 @@ create table user (
     password varchar(100) not null,
     primary key (username)
 );
+
+
+create table user (
+    id int auto_increment,
+    email varchar(100) not null,
+    comment varchar(100) not null,
+    primary key (username)
+);
