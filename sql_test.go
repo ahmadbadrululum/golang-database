@@ -2,6 +2,7 @@ package golang_database
 
 import (
 	"context"
+	"database/sql"
 	"fmt"
 	"testing"
 	"time"
@@ -72,7 +73,8 @@ func TestSqlComplex(t *testing.T) {
 	defer rows.Close()
 
 	for rows.Next() {
-		var id, name, email string
+		var id, name string
+		var email sql.NullString
 		var balance int32
 		var rating float64
 		var birthDate, createdAt time.Time
@@ -85,6 +87,10 @@ func TestSqlComplex(t *testing.T) {
 
 		fmt.Println("id ", id)
 		fmt.Println("name ", name)
+		if email.Valid {
+			fmt.Println("email ", email.String)
+		}
+
 		fmt.Println("balance ", balance)
 		fmt.Println("rating ", rating)
 		fmt.Println("birthDate ", birthDate)
