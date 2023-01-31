@@ -12,8 +12,12 @@ type commentRepositoryImpl struct {
 	DB *sql.DB
 }
 
+func NewCommentRepository(db *sql.DB) CommentRepository {
+	return &commentRepositoryImpl{DB: db}
+}
+
 func (repository *commentRepositoryImpl) Insert(ctx context.Context, comment entity.Comment) (entity.Comment, error) {
-	script := "INSERT INTO comments (email, comment) VALUES (?, ?)"
+	script := "INSERT INTO comment (email, comment) VALUES (?, ?)"
 	result, err := repository.DB.ExecContext(ctx, script, comment.Email, comment.Comment)
 
 	if err != nil {
@@ -30,7 +34,7 @@ func (repository *commentRepositoryImpl) Insert(ctx context.Context, comment ent
 }
 
 func (repository *commentRepositoryImpl) FindById(ctx context.Context, id int32) (entity.Comment, error) {
-	script := "SELECT id, email, comment FROM comments WHERE id = ? LIMIT 1"
+	script := "SELECT id, email, comment FROM comment WHERE id = ? LIMIT 1"
 	rows, err := repository.DB.QueryContext(ctx, script, id)
 	comment := entity.Comment{}
 	if err != nil {
@@ -48,7 +52,7 @@ func (repository *commentRepositoryImpl) FindById(ctx context.Context, id int32)
 }
 
 func (repository *commentRepositoryImpl) FindAll(ctx context.Context) ([]entity.Comment, error) {
-	script := "SELECT id, email, comment FROM comments"
+	script := "SELECT id, email, comment FROM comment"
 	rows, err := repository.DB.QueryContext(ctx, script)
 	if err != nil {
 		return nil, err
